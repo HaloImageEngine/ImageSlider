@@ -15,7 +15,7 @@ namespace ImageSlider
             InitializeComponent();
             txt_Folder.Text = "I:\\GFEOF";
             txt_Count.Text = "50";
-            txt_Timer.Text = "2000";
+            txt_Timer.Text = "3000";
         }
 
       
