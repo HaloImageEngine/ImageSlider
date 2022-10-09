@@ -13,9 +13,19 @@ namespace ImageSlider
         public Form1()
         {
             InitializeComponent();
-            txt_Folder.Text = "I:\\GFEOF";
+           
             txt_Count.Text = "50";
             txt_Timer.Text = "3000";
+            txt_Folder.Text = "I:\\GFEOF";
+
+            List<Item> items = new List<Item>();
+            items.Add(new Item() { Text = "GFEOBJ", Value = "I:\\GFEOF" });
+            items.Add(new Item() { Text = "Backgrounds", Value = "I:\\Backgrounds" });
+
+            dd_Folder.DataSource = items;
+            dd_Folder.DisplayMember = "Text";
+            dd_Folder.ValueMember = "Value";
+            dd_Folder.SelectedIndex = dd_Folder.Items.IndexOf("displayText1");
         }
 
       
@@ -30,8 +40,8 @@ namespace ImageSlider
         }
         private void Start_Process()
         {
-            txt_Folder.Text = "I:\\GFEOF";
-            
+           
+
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
             btn_Start.BringToFront();
@@ -82,9 +92,11 @@ namespace ImageSlider
                     txt_Folder.Refresh();
                     txt_Timer.Visible = true;
                     txt_Timer.Refresh();
-
+                    dd_Folder.Visible = true;
+                    dd_Folder.Refresh();
                     txt_FileName.Text = fileName;
                     txt_FileName.Refresh();
+                    txt_Folder.Visible = false;
                     if (img.Width > img.Height)
                     {
                         txt_Width.BackColor = Color.Red;
@@ -150,7 +162,11 @@ namespace ImageSlider
                     Thread.Sleep(milliseconds);
                     pictureBox1.Image = null;
                     pictureBox1.ImageLocation = null;
-                    pictureBox1.Update();   
+                    pictureBox1.Update();
+                    Thread.Sleep(100);
+                    pictureBox1.Image = null;
+                    pictureBox1.ImageLocation = null;
+                    pictureBox1.Update();
 
                     cntr++;
                     txt_Counter.Text = cntr.ToString();
@@ -293,16 +309,17 @@ namespace ImageSlider
 
         private string getrandomfile()
         {
-            string file = null;
-            if (!string.IsNullOrEmpty("I:\\GFEOF"))
+            string _folder = txt_Folder.Text;
+            string _file = "";
+            if (!string.IsNullOrEmpty(_folder))
             {
                 var extensions = new string[] { ".png", ".jpg", ".gif" };
                 try
                 {
-                    var di = new DirectoryInfo("I:\\GFEOF");
+                    var di = new DirectoryInfo(_folder);
                     var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
                     Random R = new Random();
-                    file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).FullName;
+                    _file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).FullName;
                 }
                 // probably should only catch specific exceptions
                 // throwable by the above methods.
@@ -310,7 +327,7 @@ namespace ImageSlider
                     Logger("Error in Random File : " + ex.Message);
                 }
             }
-            return file;
+            return _file;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)
@@ -318,8 +335,8 @@ namespace ImageSlider
             return (Image)(new Bitmap(imgToResize, size));
         }
 
-        
 
+        
         private void UpdateZoomedImage(MouseEventArgs e)
         {
             // Calculate the width and height of the portion of the image we want
@@ -397,6 +414,24 @@ namespace ImageSlider
             catch (Exception) { }
         }
 
+        private void dd_Folder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+             
+        }
+
+        private void dd_Folder_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Item obj = dd_Folder.SelectedItem as Item;
+            if (obj != null)
+                txt_Folder.Text = obj.Value.ToString();
+        }
+    }
+    public class Item
+    {
+        public Item() { }
+        public string Value { set; get; }
+        public string Text { set; get; }
     }
 
 

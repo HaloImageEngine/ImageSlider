@@ -41,6 +41,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txt_Timer = new System.Windows.Forms.TextBox();
             this.txt_Type = new System.Windows.Forms.TextBox();
+            this.dd_Folder = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,9 +84,9 @@
             // 
             // txt_FileName
             // 
-            this.txt_FileName.Location = new System.Drawing.Point(105, 12);
+            this.txt_FileName.Location = new System.Drawing.Point(274, 13);
             this.txt_FileName.Name = "txt_FileName";
-            this.txt_FileName.Size = new System.Drawing.Size(189, 23);
+            this.txt_FileName.Size = new System.Drawing.Size(306, 23);
             this.txt_FileName.TabIndex = 4;
             // 
             // txt_Width
@@ -124,9 +125,9 @@
             // 
             // txt_Folder
             // 
-            this.txt_Folder.Location = new System.Drawing.Point(11, 156);
+            this.txt_Folder.Location = new System.Drawing.Point(595, 14);
             this.txt_Folder.Name = "txt_Folder";
-            this.txt_Folder.Size = new System.Drawing.Size(76, 23);
+            this.txt_Folder.Size = new System.Drawing.Size(142, 23);
             this.txt_Folder.TabIndex = 9;
             // 
             // pictureBox1
@@ -139,17 +140,30 @@
             // 
             // txt_Timer
             // 
-            this.txt_Timer.Location = new System.Drawing.Point(11, 185);
+            this.txt_Timer.Location = new System.Drawing.Point(11, 158);
             this.txt_Timer.Name = "txt_Timer";
             this.txt_Timer.Size = new System.Drawing.Size(76, 23);
             this.txt_Timer.TabIndex = 11;
             // 
             // txt_Type
             // 
-            this.txt_Type.Location = new System.Drawing.Point(12, 214);
+            this.txt_Type.Location = new System.Drawing.Point(12, 187);
             this.txt_Type.Name = "txt_Type";
             this.txt_Type.Size = new System.Drawing.Size(76, 23);
             this.txt_Type.TabIndex = 12;
+            // 
+            // dd_Folder
+            // 
+            this.dd_Folder.AutoCompleteCustomSource.AddRange(new string[] {
+            "I://GFEOF",
+            "I://Backgrounds"});
+            this.dd_Folder.FormattingEnabled = true;
+            this.dd_Folder.Location = new System.Drawing.Point(105, 14);
+            this.dd_Folder.Name = "dd_Folder";
+            this.dd_Folder.Size = new System.Drawing.Size(153, 23);
+            this.dd_Folder.TabIndex = 13;
+            this.dd_Folder.SelectedIndexChanged += new System.EventHandler(this.dd_Folder_SelectedIndexChanged);
+            this.dd_Folder.SelectionChangeCommitted += new System.EventHandler(this.dd_Folder_SelectionChangeCommitted);
             // 
             // Form1
             // 
@@ -157,6 +171,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dd_Folder);
             this.Controls.Add(this.txt_Type);
             this.Controls.Add(this.txt_Timer);
             this.Controls.Add(this.pictureBox1);
@@ -193,5 +208,6 @@
         private PictureBox pictureBox1;
         private TextBox txt_Timer;
         private TextBox txt_Type;
+        private ComboBox dd_Folder;
     }
 }
