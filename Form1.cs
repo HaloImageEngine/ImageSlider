@@ -75,13 +75,13 @@ namespace ImageSlider
                 if (this.CheckClose == string.Empty)
                 {
                     string fileName = getrandomfile();
-                    // fileName = "I:\\Backgrounds\\DSC05710-Edit-Edit.jpg";
+                    //fileName = "I:\\Backgrounds\\DSC01142.jpg";
                     var img = Image.FromFile(fileName);
 
-                    int timerval = 2500;
+                    int timerval = 1500;
                     if (fileName.Contains("LA") || fileName.Contains("TH") || fileName.Contains("2022") || fileName.Contains("2021"))
                     {
-                        timerval = 4000;
+                        timerval = 2000;
                         txt_Timer.Text = timerval.ToString();
                         txt_Timer.BackColor = Color.Yellow;
                         txt_Timer.ForeColor = Color.Black;
@@ -89,7 +89,7 @@ namespace ImageSlider
                     }
                     else
                     {
-                        timerval = 3000;
+                        timerval = 1000;
                         txt_Timer.Text = timerval.ToString();
                         txt_Timer.BackColor = Color.White;
                         txt_Timer.ForeColor = Color.Black;
@@ -189,37 +189,83 @@ namespace ImageSlider
                             {
                                 if (mult == 2)
                                 {
-                                    int wmin4 = (img.Width / 30);
+                                    int wmin4 = 800;
                                     int hmin4 = (img.Height / 30);
+                                    decimal value = 3.14m;
+                                    int n = (int)value;
 
                                     if (img.Height > 1080)
                                     {
-                                        wmin4 = (img.Height - 1080);
+                                        if (img.Height > 2000 && img.Height < 2200)
+                                        {
+                                            wmin4 = 700;
+                                        }
+                                        if (img.Height > 1800 && img.Height < 2000)
+                                        {
+                                            if (img.Width > 1640 && img.Width < 2040)
+                                                wmin4 = 700;
+                                            if (img.Width > 1340 && img.Width < 1640)
+                                                wmin4 = 600;
+                                            if (img.Width > 1100 && img.Width < 1340)
+                                                wmin4 = 500;
+                                            
+                                        }
+                                        if (img.Height > 1700 && img.Height < 1800)
+                                        {
+                                            if (img.Width > 1540)
+                                                wmin4 = 600;
+                                            else
+                                                wmin4 = 500;
+                                        }
+                                        if (img.Height > 1500 && img.Height < 1700)
+                                        {
+                                            wmin4 = 400;
+                                        }
+                                        if (img.Height > 1300 && img.Height < 1500)
+                                        {
+                                            wmin4 = 300;
+                                        }
+                                        if (img.Height > 1100 && img.Height < 1300)
+                                        {
+                                            wmin4 = 200;
+                                        }
+                                        
+                                        
                                         hmin4 = (img.Height - 1080);
-                                        _type = "> 1080";
+                                        _type = "> 1080" + wmin4.ToString();
                                         txt_OH.BackColor = Color.LightSeaGreen;
+                                        mult = 1;
+                                        Image p_image1 = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4 ));
+                                        pictureBox1.Image = p_image1;
+                                        txt_OH.Text = p_image1.Height.ToString();
+                                        txt_OW.Text = p_image1.Width.ToString();
+                                        txt_Height.BackColor = Color.LightYellow;
+                                        Logger("Show Pic X : " + fileName);
                                     }
                                     if (img.Height < 1080)
                                     {
-                                        wmin4 = (img.Height + 1080);
-                                        hmin4 = (img.Height + 1080);
-                                        _type = "< 10980";
+                                        wmin4 = (1080 - img.Width);
+                                        hmin4 = (1080 - img.Height);
+                                        _type = "< 1080";
                                         mult = 1;
                                         txt_OH.BackColor = Color.LightSalmon;
+                                        Image p_image2 = resizeImage(img, new Size((img.Width / mult) + wmin4, (img.Height / mult) + hmin4));
+                                        pictureBox1.Image = p_image2;
+                                        txt_OH.Text = p_image2.Height.ToString();
+                                        txt_OW.Text = p_image2.Width.ToString();
+                                        txt_Height.BackColor = Color.LightPink;
                                     }
-                                    _type = "Plus";
-                                    Image p_image = resizeImage(img, new Size((img.Width / mult) , (img.Height / mult) ));
-                                    //  Image p_image = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4));
-                                    txt_OH.Text = p_image.Height.ToString();
-                                    txt_OW.Text = p_image.Width.ToString();
+
+                                    //  Image p_image = resizeImage(img, new Size((img.Width / mult) , (img.Height / mult) ));
+                                  
                                     txt_OH.Refresh();
                                     txt_OW.Refresh();
                                     //  Portrait(p_image);
                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                                    pictureBox1.Image = p_image;
+                                   
                                     pictureBox1.Refresh();
                                     Logger("Show Pic P : " + fileName);
-                                    txt_Height.BackColor = Color.LightPink;
+                                    
                                     txt_Height.ForeColor = Color.Black;
                                     txt_Height.Refresh();
                                     Thread.Sleep(2000);
@@ -243,7 +289,7 @@ namespace ImageSlider
                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
                                     pictureBox1.Image = p_image;
                                     pictureBox1.Refresh();
-                                    Logger("Show Pic P : " + fileName);
+                                    Logger("Show Pic P  "  + fileName);
                                     txt_Height.BackColor = Color.LightCyan;
                                     txt_Height.ForeColor = Color.Black;
                                     txt_Height.Refresh();
@@ -527,7 +573,7 @@ namespace ImageSlider
         {
             string path = "D:/Log/";
             VerifyDir(path);
-            string fileName = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + "_Logs.txt";
+            string fileName = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + "_Logs.txt";
             try
             {
                 System.IO.StreamWriter file = new System.IO.StreamWriter(path + fileName, true);
