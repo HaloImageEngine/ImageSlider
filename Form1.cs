@@ -16,12 +16,14 @@ namespace ImageSlider
            
             txt_Count.Text = "50";
             txt_Timer.Text = "1500";
-            txt_Folder.Text = "I:\\GFEOF";
+            txt_Folder.Text = "D:\\Backgrounds";
+            this.Text = "ImageSlider V 231023";
+
 
             List<Item> items = new List<Item>();
-            items.Add(new Item() { Text = "GFEOBJ", Value = "I:\\GFEOF" });
-            items.Add(new Item() { Text = "Backgrounds", Value = "I:\\Backgrounds" });
-            items.Add(new Item() { Text = "HardDisk", Value = "F:\\Images\\XXX" });
+            //items.Add(new Item() { Text = "GFEOBJ", Value = "D:\\GFE\\GFEOF" });
+            items.Add(new Item() { Text = "Backgrounds", Value = "D:\\Backgrounds" });
+            //items.Add(new Item() { Text = "HardDisk", Value = "F:\\Images\\XXX" });
 
             dd_Folder.DataSource = items;
             dd_Folder.DisplayMember = "Text";
@@ -37,6 +39,7 @@ namespace ImageSlider
 
         private void btn_Stop_Click(object sender, EventArgs e)
         {
+          
             this.Close();
         }
         private void Start_Process()
@@ -68,289 +71,461 @@ namespace ImageSlider
             
 
             Random _rnd = new Random();
-            int cntr = 0;
+            int cntr = 1;
             while (cntr < Convert.ToInt32(txt_Count.Text))
             {
-
-                if (this.CheckClose == string.Empty)
+                string fileName = string.Empty;
+                if (txtFilter.Text.Length > 0)
                 {
-                    string fileName = getrandomfile();
-                    //fileName = "I:\\Backgrounds\\DSC01142.jpg";
-                    var img = Image.FromFile(fileName);
-
-                    int timerval = 1500;
-                    if (fileName.Contains("LA") || fileName.Contains("TH") || fileName.Contains("2022") || fileName.Contains("2021"))
+                    fileName = getrandomfilefilter(txtFilter.Text.Trim());
+                }
+                else 
+                {
+                    fileName = getrandomfile();
+                }
+                //fileName = "D:/Backgrounds/DSC05042.jpg"; //  -- Super Tall
+                //fileName = "D:/Backgrounds/32369149_092_e08c.jpg";
+                //fileName = "D:/Backgrounds/2023-08-19_15-33-28.jpg";\
+               
+                var img = Image.FromFile(fileName);
+                cntr = cntr + 1;
+                if (txtFilter.Text.Length == 0)
+                {
+                    if (fileName.Contains("3"))
                     {
-                        timerval = 2000;
-                        txt_Timer.Text = timerval.ToString();
-                        txt_Timer.BackColor = Color.Yellow;
-                        txt_Timer.ForeColor = Color.Black;
-                        txt_Timer.Refresh();
+                        System.Threading.Thread.Sleep(1000);
                     }
-                    else
+                    if (fileName.Contains("DSC"))
                     {
-                        timerval = 1000;
-                        txt_Timer.Text = timerval.ToString();
-                        txt_Timer.BackColor = Color.White;
-                        txt_Timer.ForeColor = Color.Black;
-                        txt_Timer.Refresh();
+                        System.Threading.Thread.Sleep(1000);
                     }
-
-                    Logger("--------------" );
-                    Logger("New File   : " + fileName);
-
-                    btn_Start.Visible = true;
-                    btn_Start.Refresh();
-                    btn_Stop.Visible = true;
-                    btn_Stop.Refresh();
-                    label1.Visible = true;
-                    label2.Visible = true;
-                    label1.Refresh();
-                    label2.Refresh();
-                    txt_Count.Visible = true;
-                    txt_Count.Refresh();
-                    txt_Folder.Visible = true;
-                    txt_Folder.Refresh();
-                    txt_Timer.Visible = true;
-                    txt_Timer.Refresh();
-                    dd_Folder.Visible = true;
-                    dd_Folder.Refresh();
+                }
+                if (img.Height < 800 && !fileName.Contains("2023"))
+                {
+                    FileInfo _fileinfo = new FileInfo(fileName);
+                 
+                    Image imgrs = ScaleImage(img, 2400, 1080);
+                    this.pictureBox1.Image = imgrs;
+                    pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                    this.pictureBox1.Refresh();
+                    
+                    txt_Type.Text = "Scale Image Up";
+                    txt_Type.Refresh();
+                    txt_Counter.Text = cntr.ToString();
+                    txt_Counter.Refresh();
                     txt_FileName.Text = fileName;
                     txt_FileName.Refresh();
-                    txt_Folder.Visible = false;
-                    if (img.Width > img.Height)
+                    SetColor(img, imgrs, 0);
+                    CheckClose = "Done";
+                }
+
+                if (img.Height > 1400 )
+                {
+                    FileInfo _fileinfo = new FileInfo(fileName);
+                    
+                    Image imgrs = ScaleImage(img, 2400, 1080);
+                    this.pictureBox1.Image = imgrs;
+                    pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                    this.pictureBox1.Refresh();
+                    txt_Type.Text = "Scale Image Down";
+                    txt_Type.Refresh();
+                    txt_Counter.Text = cntr.ToString();
+                    txt_Counter.Refresh();
+                    txt_FileName.Text = fileName;
+                    txt_FileName.Refresh();
+                    SetColor(img, imgrs, 1);
+                    CheckClose = "Done";
+                }
+
+                this.Refresh();
+                if (this.CheckClose == string.Empty)
+                {
+                   
+
+                    if (this.CheckClose == string.Empty)
                     {
-                        txt_Width.BackColor = Color.Red;
-                        txt_Width.ForeColor = Color.White;
-                        txt_Height.BackColor = Color.Blue;
-                        txt_Height.ForeColor = Color.White;
 
-                    }
-                    else
-                    {
-                        txt_Width.BackColor = Color.Blue;
-                        txt_Width.ForeColor = Color.White;
-                        txt_Height.BackColor = Color.Red;
-                        txt_Height.ForeColor = Color.White;
-                    }
-                    txt_Width.Text = img.Width.ToString();
-                    txt_Height.Text = img.Height.ToString();
-                    txt_Width.Refresh();
-                    txt_Height.Refresh();
-
-                    if ((img.Width > 2000) || (img.Height > 1200))
-                    {
-                        Image n_img = img;
-                        int mult = 3;
-
-                        
-
-                        if (img.Height < img.Width)
+                        int timerval = Convert.ToInt32(txt_Timer.Text);
+                        if (fileName.Contains("2024") || fileName.Contains("2023") || fileName.Contains("2022") || fileName.Contains("2021"))
                         {
-                            Image l_image = resizeImage(img, new Size(img.Width - 900, img.Height - 700));
-                            Logger("Show Pic L : " + fileName);
-                            Landscape(l_image);
-                            txt_Type.Text = "Landscape";
-                            txt_Type.Refresh();
+
+                            txt_Timer.Text = timerval.ToString();
+                            txt_Timer.BackColor = Color.Yellow;
+                            txt_Timer.ForeColor = Color.Black;
+                            txt_Timer.Refresh();
                         }
                         else
                         {
-                            
-                            if (img.Height > 1900)
+
+                            txt_Timer.Text = timerval.ToString();
+                            txt_Timer.BackColor = Color.White;
+                            txt_Timer.ForeColor = Color.Black;
+                            txt_Timer.Refresh();
+                        }
+
+                        //Logger("--------------");
+                        //Logger("New File   : " + fileName);
+
+                        btn_Start.Visible = true;
+                        btn_Start.Refresh();
+                        btn_Stop.Visible = true;
+                        btn_Stop.Refresh();
+                        label1.Visible = true;
+                        label2.Visible = true;
+                        label1.Refresh();
+                        label2.Refresh();
+                        txt_Count.Visible = true;
+                        txt_Count.Refresh();
+                        txt_Folder.Visible = true;
+                        txt_Folder.Refresh();
+                        txt_Timer.Visible = true;
+                        txt_Timer.Refresh();
+                        dd_Folder.Visible = true;
+                        dd_Folder.Refresh();
+                        txt_FileName.Text = fileName;
+                        txt_FileName.Refresh();
+                        txt_Folder.Visible = false;
+                        if (img.Width > img.Height)
+                        {
+                            txt_Width.BackColor = Color.Red;
+                            txt_Width.ForeColor = Color.White;
+                            txt_Height.BackColor = Color.Blue;
+                            txt_Height.ForeColor = Color.White;
+
+                        }
+                        else
+                        {
+                            txt_Width.BackColor = Color.Blue;
+                            txt_Width.ForeColor = Color.White;
+                            txt_Height.BackColor = Color.Red;
+                            txt_Height.ForeColor = Color.White;
+                        }
+                        txt_Width.Text = img.Width.ToString();
+                        txt_Height.Text = img.Height.ToString();
+                        txt_Width.Refresh();
+                        txt_Height.Refresh();
+
+                        if ((img.Width > 2000) || (img.Height > 1200))
+                        {
+                            Image n_img = img;
+                            int mult = 3;
+
+
+
+                            if (img.Height < img.Width)
                             {
-                                mult = 3;
-                                if (img.Height > 2000)
+                                if (img.Width > 2600)
                                 {
-                                    mult = 4;
-                                }
-                                if (img.Height > 3000)
-                                {
-                                    mult = 5;
-                                }
-                                if (img.Height > 4000)
-                                {
-                                    mult = 6;
-                                }
-
-                            }
-                            else
-                            {
-                                if (img.Height > 1080)
-                                {
-                                    mult = 2;
-
-                                }
-                                if (img.Height < 1080)
-                                {
-                                    mult = 1;
-                                }
-                            }
-                            try
-                            {
-                                if (mult == 2)
-                                {
-                                    int wmin4 = 800;
-                                    int hmin4 = (img.Height / 30);
-                                    decimal value = 3.14m;
-                                    int n = (int)value;
-
-                                    if (img.Height > 1080)
-                                    {
-                                        if (img.Height > 2000 && img.Height < 2200)
-                                        {
-                                            wmin4 = 700;
-                                        }
-                                        if (img.Height > 1800 && img.Height < 2000)
-                                        {
-                                            if (img.Width > 1640 && img.Width < 2040)
-                                                wmin4 = 700;
-                                            if (img.Width > 1340 && img.Width < 1640)
-                                                wmin4 = 600;
-                                            if (img.Width > 1100 && img.Width < 1340)
-                                                wmin4 = 500;
-                                            
-                                        }
-                                        if (img.Height > 1700 && img.Height < 1800)
-                                        {
-                                            if (img.Width > 1540)
-                                                wmin4 = 600;
-                                            else
-                                                wmin4 = 500;
-                                        }
-                                        if (img.Height > 1500 && img.Height < 1700)
-                                        {
-                                            wmin4 = 400;
-                                        }
-                                        if (img.Height > 1300 && img.Height < 1500)
-                                        {
-                                            wmin4 = 300;
-                                        }
-                                        if (img.Height > 1100 && img.Height < 1300)
-                                        {
-                                            wmin4 = 200;
-                                        }
-                                        
-                                        
-                                        hmin4 = (img.Height - 1080);
-                                        _type = "> 1080" + wmin4.ToString();
-                                        txt_OH.BackColor = Color.LightSeaGreen;
-                                        mult = 1;
-                                        Image p_image1 = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4 ));
-                                        pictureBox1.Image = p_image1;
-                                        txt_OH.Text = p_image1.Height.ToString();
-                                        txt_OW.Text = p_image1.Width.ToString();
-                                        txt_Height.BackColor = Color.LightYellow;
-                                        Logger("Show Pic X : " + fileName);
-                                    }
-                                    if (img.Height < 1080)
-                                    {
-                                        wmin4 = (1080 - img.Width);
-                                        hmin4 = (1080 - img.Height);
-                                        _type = "< 1080";
-                                        mult = 1;
-                                        txt_OH.BackColor = Color.LightSalmon;
-                                        Image p_image2 = resizeImage(img, new Size((img.Width / mult) + wmin4, (img.Height / mult) + hmin4));
-                                        pictureBox1.Image = p_image2;
-                                        txt_OH.Text = p_image2.Height.ToString();
-                                        txt_OW.Text = p_image2.Width.ToString();
-                                        txt_Height.BackColor = Color.LightPink;
-                                    }
-
-                                    //  Image p_image = resizeImage(img, new Size((img.Width / mult) , (img.Height / mult) ));
-                                  
-                                    txt_OH.Refresh();
-                                    txt_OW.Refresh();
-                                    //  Portrait(p_image);
+                                    Image l_imaged = resizeImage(img, new Size(img.Width / 2, img.Height / 2));
+                                    this.pictureBox1.Image = l_imaged;
                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                                   
-                                    pictureBox1.Refresh();
-                                    Logger("Show Pic P : " + fileName);
-                                    
-                                    txt_Height.ForeColor = Color.Black;
-                                    txt_Height.Refresh();
-                                    Thread.Sleep(2000);
+                                    this.pictureBox1.Refresh();
+                                   // Logger("Show Pic L : " + fileName);
+                                    Landscape(l_imaged);
+                                    txt_Type.Text = "Landscape Div";
+                                    txt_Type.Refresh();
+                                    txt_FileName.Text = fileName;
+                                    txt_FileName.Refresh();
                                 }
                                 else
                                 {
-                                    _type = "Plus";
-                                    int wmin = (img.Width / 10);
-                                    int hmin = (img.Height / 10);
-                                    if (img.Height < 1080)
+                                    int h2 = 0;
+                                    if (!fileName.Contains("2023") || !fileName.Contains("SZ"))
                                     {
-                                        wmin = (img.Height + 1080);
-                                        hmin = (img.Height + 1080);
+                                        if (img.Height < 800)
+                                        {
+                                            FileInfo _fileinfo = new FileInfo(fileName);
+
+                                            Image imgrs = ScaleImage(img, 1080, 2500);
+                                            this.pictureBox1.Image = imgrs;
+                                            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                                            this.pictureBox1.Refresh();
+                                            // break;
+                                        }
                                     }
 
-                                    Image p_image = resizeImage(img, new Size((img.Width / mult) + wmin, (img.Height / mult) + hmin));
-                                    txt_OH.Text = p_image.Height.ToString();
-                                    txt_OW.Text = p_image.Width.ToString();
-                                    txt_OH.Refresh();
-                                    txt_OW.Refresh();
+                                    Image l_imagem = resizeImage(img, new Size(img.Width + h2, img.Height + h2));
+                                    this.pictureBox1.Image = l_imagem;
                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                                    pictureBox1.Image = p_image;
-                                    pictureBox1.Refresh();
-                                    Logger("Show Pic P  "  + fileName);
-                                    txt_Height.BackColor = Color.LightCyan;
-                                    txt_Height.ForeColor = Color.Black;
-                                    txt_Height.Refresh();
-                                    Thread.Sleep(2000);
+                                    this.pictureBox1.Refresh();
+                                    //Logger("Show Pic L : " + fileName);
+                                    //Landscape(l_image);
+                                    txt_Type.Text = "Landscape Min";
+                                    txt_Type.Refresh();
+                                    txt_FileName.Text = fileName;
+                                    txt_FileName.Refresh();
                                 }
-
-                                txt_Type.Text = "Portrait  " + _type;
-                                txt_Type.Refresh();
-
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                Logger("Error in Landscape : " + ex.Message);
+
+                                if (img.Height > 2100)
+                                {
+                                    mult = 3;
+                                    if (img.Height > 2100)
+                                    {
+                                        mult = 4;
+                                    }
+                                    if (img.Height > 3000)
+                                    {
+                                        mult = 5;
+                                    }
+                                    if (img.Height > 4000)
+                                    {
+                                        mult = 6;
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (img.Height > 1280)
+                                    {
+                                        mult = 2;
+
+                                    }
+                                    if (img.Height < 1080)
+                                    {
+                                        mult = 1;
+                                    }
+                                }
+                                try
+                                {
+                                    if (mult == 2)
+                                    {
+                                        int wmin4 = 800;
+                                        int hmin4 = (img.Height / 30);
+                                        decimal value = 3.14m;
+                                        int n = (int)value;
+
+                                        if (img.Height > 1080)
+                                        {
+                                            if (img.Height > 2000 && img.Height < 2200)
+                                            {
+                                                wmin4 = 700;
+                                            }
+                                            if (img.Height > 1800 && img.Height < 2000)
+                                            {
+                                                if (img.Width > 1640 && img.Width < 2040)
+                                                    wmin4 = 700;
+                                                if (img.Width > 1340 && img.Width < 1640)
+                                                    wmin4 = 600;
+                                                if (img.Width > 1100 && img.Width < 1340)
+                                                    wmin4 = 500;
+
+                                            }
+                                            if (img.Height > 1700 && img.Height < 1800)
+                                            {
+                                                if (img.Width > 1540)
+                                                    wmin4 = 600;
+                                                else
+                                                    wmin4 = 500;
+                                            }
+                                            if (img.Height > 1500 && img.Height < 1700)
+                                            {
+                                                wmin4 = 400;
+                                            }
+                                            if (img.Height > 1300 && img.Height < 1500)
+                                            {
+                                                wmin4 = 300;
+                                            }
+                                            if (img.Height > 1100 && img.Height < 1300)
+                                            {
+                                                wmin4 = 200;
+                                            }
+
+
+                                            hmin4 = (img.Height - 1080);
+                                            _type = "> 1080 " + wmin4.ToString();
+                                            txt_OH.BackColor = Color.LightSeaGreen;
+                                            mult = 1;
+                                            Image p_image1 = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4));
+                                            pictureBox1.Image = p_image1;
+                                            txt_OH.Text = p_image1.Height.ToString();
+                                            txt_OW.Text = p_image1.Width.ToString();
+                                            txt_Height.BackColor = Color.LightPink;
+                                           // Logger("Show Pic X : " + fileName);
+                                            txt_FileName.Text = fileName;
+                                            txt_FileName.Refresh();
+                                        }
+                                        if (img.Height < 1080)
+                                        {
+                                            wmin4 = (1080 - img.Width);
+                                            hmin4 = (1080 - img.Height);
+                                            _type = "< 1080";
+                                            mult = 1;
+                                            txt_OH.BackColor = Color.LightSalmon;
+                                            Image p_image2 = resizeImage(img, new Size((img.Width / mult) + wmin4, (img.Height / mult) + hmin4));
+                                            pictureBox1.Image = p_image2;
+                                            txt_OH.Text = p_image2.Height.ToString();
+                                            txt_OW.Text = p_image2.Width.ToString();
+                                            txt_Height.BackColor = Color.LightPink;
+                                        }
+
+                                        Image p_image = resizeImage(img, new Size((img.Width / mult), (img.Height / mult)));
+
+                                        txt_OH.Refresh();
+                                        txt_OW.Refresh();
+                                        //  Portrait(p_image);
+                                        pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+
+                                        pictureBox1.Refresh();
+                                       // Logger("Show Pic P : " + fileName);
+                                        txt_FileName.Text = fileName;
+                                        txt_FileName.Refresh();
+
+                                        txt_Height.ForeColor = Color.Black;
+                                        txt_Height.Refresh();
+                                        timerval = Convert.ToInt32(txt_Timer.Text);
+                                        Thread.Sleep(timerval);
+                                    }
+                                    else
+                                    {
+                                        _type = "Plus";
+                                        int wmin = (img.Width / 10);
+                                        int hmin = (img.Height / 10);
+                                        if (img.Height < 1080)
+                                        {
+                                            wmin = (img.Height + 1080);
+                                            hmin = (img.Height + 1080);
+                                        }
+
+                                        Image p_image = resizeImage(img, new Size((img.Width / (mult - 1)) + wmin, (img.Height / (mult - 1)) + hmin));
+                                        txt_OH.Text = p_image.Height.ToString();
+                                        txt_OW.Text = p_image.Width.ToString();
+                                        txt_OH.Refresh();
+                                        txt_OW.Refresh();
+                                        pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                                        if (mult > 2)
+                                        {
+                                            if (img.Height > 1080)
+                                            {
+                                                if (p_image.Height < 1080)
+                                                {
+                                                    pictureBox1.Image = img;
+                                                }
+                                                else
+                                                {
+                                                    pictureBox1.Image = p_image;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                pictureBox1.Image = img;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            pictureBox1.Image = img;
+                                        }
+                                        pictureBox1.Refresh();
+                                       // Logger("Show Pic P  " + fileName);
+                                        txt_Height.BackColor = Color.LightCyan;
+                                        txt_Height.ForeColor = Color.Black;
+                                        txt_Height.Refresh();
+                                        Thread.Sleep(2000);
+                                    }
+
+                                    txt_Type.Text = "Portrait  " + _type;
+                                    txt_Type.Refresh();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger("Error in Landscape : " + ex.Message);
+                                }
                             }
                         }
+                        else
+                        {
+                            pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                            pictureBox1.Image = img;
+                            txt_OH.Text = img.Height.ToString();
+                            txt_OW.Text = img.Width.ToString();
+                            txt_OH.Refresh();
+                            txt_OW.Refresh();
+                         //   Logger("Show Pic N : " + fileName);
+                            pictureBox1.Refresh();
+                            txt_Type.Text = "Normal";
+                            txt_Type.Refresh();
+                            txt_Height.BackColor = Color.LightBlue;
+                            txt_Height.ForeColor = Color.Black;
+                            txt_Timer.BackColor = Color.White;
+                            txt_Timer.ForeColor = Color.Black;
+                            txt_Timer.Refresh();
+                            txt_Height.Refresh();
+                        }
+
+                        int milliseconds = Convert.ToInt32(timerval);
+                        Thread.Sleep(milliseconds);
+                        pictureBox1.Image = null;
+                        pictureBox1.ImageLocation = null;
+                        pictureBox1.Update();
+                        Thread.Sleep(100);
+                        pictureBox1.Image = null;
+                        pictureBox1.ImageLocation = null;
+                        pictureBox1.Update();
+
+                        cntr++;
+                        txt_Counter.Text = cntr.ToString();
+                        txt_Counter.Refresh();
+
+
                     }
                     else
                     {
-                        pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                        pictureBox1.Image = img;
-                        txt_OH.Text = img.Height.ToString();
-                        txt_OW.Text = img.Width.ToString();
-                        txt_OH.Refresh();
-                        txt_OW.Refresh();
-                        Logger("Show Pic N : " + fileName);
-                        pictureBox1.Refresh();
-                        txt_Type.Text = "Normal";
-                        txt_Type.Refresh();
-                        txt_Height.BackColor = Color.LightBlue;
-                        txt_Height.ForeColor = Color.Black;
-                        txt_Timer.BackColor = Color.White;
-                        txt_Timer.ForeColor = Color.Black;
-                        txt_Timer.Refresh();
-                        txt_Height.Refresh();
+                        if (cntr < Convert.ToInt32(txt_Count.Text))
+                        {
+                           
+                            txt_FileName.Text = " Break ";
+                            txt_FileName.Refresh();
+                        }
+                        
+
                     }
-
-                    int milliseconds = Convert.ToInt32(timerval);
-                    Thread.Sleep(milliseconds);
-                    pictureBox1.Image = null;
-                    pictureBox1.ImageLocation = null;
-                    pictureBox1.Update();
-                    Thread.Sleep(100);
-                    pictureBox1.Image = null;
-                    pictureBox1.ImageLocation = null;
-                    pictureBox1.Update();
-
-                    cntr++;
-                    txt_Counter.Text = cntr.ToString();
-                    txt_Counter.Refresh();
-                    
+                    this.Refresh();
 
                 }
-                else
-                {
-                    break;
-                }
+
             }
-
             
-            Logger("Loop " + cntr.ToString());
+            
+          //  Logger("Loop " + cntr.ToString());
             this.Close();
+        }
+
+        private void SetColor(Image img, Image oh, int itype)
+        {
+            if (itype == 0)
+            {
+                txt_Width.BackColor = Color.Blue;
+                txt_Width.ForeColor = Color.White;
+                txt_Height.BackColor = Color.Blue;
+                txt_Height.ForeColor = Color.White;
+                txt_OW.BackColor = Color.Green;
+                txt_OW.ForeColor = Color.White;
+                txt_OH.BackColor = Color.Green;
+                txt_OH.ForeColor = Color.White;
+
+            }
+            else
+            {
+                txt_Width.BackColor = Color.Blue;
+                txt_Width.ForeColor = Color.White;
+                txt_Height.BackColor = Color.Blue;
+                txt_Height.ForeColor = Color.White;
+                txt_OW.BackColor = Color.Red;
+                txt_OW.ForeColor = Color.White;
+                txt_OH.BackColor = Color.Red;
+                txt_OH.ForeColor = Color.White;
+            }
+            txt_Width.Text = img.Width.ToString();
+            txt_Height.Text = img.Height.ToString();
+            txt_OW.Text = oh.Width.ToString();
+            txt_OH.Text = oh.Height.ToString();
+            txt_OH.Refresh();
+            txt_OW.Refresh();
+            txt_Width.Refresh();
+            txt_Height.Refresh();
         }
 
         private void Landscape(Image img)
@@ -480,13 +655,18 @@ namespace ImageSlider
         {
             string _folder = txt_Folder.Text;
             string _file = "";
+ 
             if (!string.IsNullOrEmpty(_folder))
             {
+                int lcount = 0;
                 var extensions = new string[] { ".png", ".jpg", ".gif" };
                 try
                 {
+                    lcount++;
                     var di = new DirectoryInfo(_folder);
                     var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                    this.txtLoop.Text = lcount.ToString();
+                    this.txtLoop.Refresh();
                     Random R = new Random();
                     _file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).FullName;
                 }
@@ -499,13 +679,138 @@ namespace ImageSlider
             return _file;
         }
 
+
+        private string getrandomfilefilter(string filter)
+        {
+            string _folder = txt_Folder.Text;
+            string _checkval = string.Empty;
+            string _file = "";
+            if (!string.IsNullOrEmpty(_folder))
+            {
+                int lcount = 0;
+                var extensions = new string[] { ".png", ".jpg", ".gif" };
+                while (_checkval.Length == 0)
+                {
+                    try
+                    {   lcount++;
+                        var di = new DirectoryInfo(_folder);
+                        var rgFiles = di.GetFiles("*.*").Where(f => extensions.Contains(f.Extension.ToLower()));
+                        Random R = new Random();
+                        _file = rgFiles.ElementAt(R.Next(0, rgFiles.Count())).FullName;
+                        this.txtLoop.Text = lcount.ToString();
+                        this.txtLoop.Refresh();
+                        if (_file.ToLower().Contains(filter.ToLower()))
+                        {
+                            _checkval = _file;
+                        }
+                    }
+                
+                    // probably should only catch specific exceptions
+                    // throwable by the above methods.
+                    catch (Exception ex)
+                    {
+                        Logger("Error in Random File : " + ex.Message);
+                    }
+                }
+            }
+            
+            return _file;
+        }
+
+
+
+        public static Image ScaleImage(Image image, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / image.Width;
+            var ratioY = (double)maxHeight / image.Height;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new Bitmap(newWidth, newHeight);
+
+            using (var graphics = Graphics.FromImage(newImage))
+                graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+
+            return newImage;
+        }
+
         public static Image resizeImage(Image imgToResize, Size size)
         {
             return (Image)(new Bitmap(imgToResize, size));
         }
 
+        private static Image ResizePhoto(FileInfo sourceImage, int desiredWidth, int desiredHeight)
+        {
+            //throw error if bouning box is to small
+            if (desiredWidth < 4 || desiredHeight < 4)
+                throw new InvalidOperationException("Bounding Box of Resize Photo must be larger than 4X4 pixels.");
+            var original = Bitmap.FromFile(sourceImage.FullName);
 
-        
+            //store image widths in variable for easier use
+            var oW = (decimal)original.Width;
+            var oH = (decimal)original.Height;
+            var dW = (decimal)desiredWidth;
+            var dH = (decimal)desiredHeight;
+
+            //check if image already fits
+            if (oW < dW && oH < dH)
+                return original; //image fits in bounding box, keep size (center with css) If we made it bigger it would stretch the image resulting in loss of quality.
+
+            //check for double squares
+            if (oW == oH && dW == dH)
+            {
+                //image and bounding box are square, no need to calculate aspects, just downsize it with the bounding box
+                Bitmap square = new Bitmap(original, (int)dW, (int)dH);
+                original.Dispose();
+                return square;
+            }
+
+            //check original image is square
+            if (oW == oH)
+            {
+                //image is square, bounding box isn't.  Get smallest side of bounding box and resize to a square of that center the image vertically and horizontally with Css there will be space on one side.
+                int smallSide = (int)Math.Min(dW, dH);
+                Bitmap square = new Bitmap(original, smallSide, smallSide);
+                original.Dispose();
+                return square;
+            }
+
+            //not dealing with squares, figure out resizing within aspect ratios            
+            if (oW > dW && oH > dH) //image is wider and taller than bounding box
+            {
+                var r = Math.Min(dW, dH) / Math.Min(oW, oH); //two dimensions so figure out which bounding box dimension is the smallest and which original image dimension is the smallest, already know original image is larger than bounding box
+                var nH = oH * r; //will downscale the original image by an aspect ratio to fit in the bounding box at the maximum size within aspect ratio.
+                var nW = oW * r;
+                var resized = new Bitmap(original, (int)nW, (int)nH);
+                original.Dispose();
+                return resized;
+            }
+            else
+            {
+                if (oW > dW) //image is wider than bounding box
+                {
+                    var r = dW / oW; //one dimension (width) so calculate the aspect ratio between the bounding box width and original image width
+                    var nW = oW * r; //downscale image by r to fit in the bounding box...
+                    var nH = oH * r;
+                    var resized = new Bitmap(original, (int)nW, (int)nH);
+                    original.Dispose();
+                    return resized;
+                }
+                else
+                {
+                    //original image is taller than bounding box
+                    var r = dH / oH;
+                    var nH = oH * r;
+                    var nW = oW * r;
+                    var resized = new Bitmap(original, (int)nW, (int)nH);
+                    original.Dispose();
+                    return resized;
+                }
+            }
+        }
+
         private void UpdateZoomedImage(MouseEventArgs e)
         {
             // Calculate the width and height of the portion of the image we want

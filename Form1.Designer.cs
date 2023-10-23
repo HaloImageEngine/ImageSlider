@@ -45,6 +45,11 @@
             this.txt_OW = new System.Windows.Forms.TextBox();
             this.txt_OH = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtLoop = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,7 +99,7 @@
             // 
             // txt_Height
             // 
-            this.txt_Height.Location = new System.Drawing.Point(24, 127);
+            this.txt_Height.Location = new System.Drawing.Point(25, 99);
             this.txt_Height.Name = "txt_Height";
             this.txt_Height.Size = new System.Drawing.Size(40, 23);
             this.txt_Height.TabIndex = 6;
@@ -103,7 +108,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(7, 127);
+            this.label1.Location = new System.Drawing.Point(8, 99);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(16, 15);
             this.label1.TabIndex = 7;
@@ -113,7 +118,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(6, 102);
+            this.label2.Location = new System.Drawing.Point(7, 131);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 15);
             this.label2.TabIndex = 8;
@@ -121,7 +126,7 @@
             // 
             // txt_Folder
             // 
-            this.txt_Folder.Location = new System.Drawing.Point(588, 15);
+            this.txt_Folder.Location = new System.Drawing.Point(5, 244);
             this.txt_Folder.Name = "txt_Folder";
             this.txt_Folder.Size = new System.Drawing.Size(142, 23);
             this.txt_Folder.TabIndex = 9;
@@ -129,25 +134,25 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(117, 43);
+            this.pictureBox1.Location = new System.Drawing.Point(128, 43);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(658, 395);
+            this.pictureBox1.Size = new System.Drawing.Size(965, 395);
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // txt_Timer
             // 
-            this.txt_Timer.Location = new System.Drawing.Point(11, 158);
+            this.txt_Timer.Location = new System.Drawing.Point(48, 157);
             this.txt_Timer.Name = "txt_Timer";
-            this.txt_Timer.Size = new System.Drawing.Size(100, 23);
+            this.txt_Timer.Size = new System.Drawing.Size(63, 23);
             this.txt_Timer.TabIndex = 11;
             // 
             // txt_Type
             // 
-            this.txt_Type.Location = new System.Drawing.Point(12, 187);
+            this.txt_Type.Location = new System.Drawing.Point(48, 215);
             this.txt_Type.Name = "txt_Type";
-            this.txt_Type.Size = new System.Drawing.Size(99, 23);
+            this.txt_Type.Size = new System.Drawing.Size(109, 23);
             this.txt_Type.TabIndex = 12;
             // 
             // dd_Folder
@@ -165,21 +170,21 @@
             // 
             // txt_Width
             // 
-            this.txt_Width.Location = new System.Drawing.Point(24, 99);
+            this.txt_Width.Location = new System.Drawing.Point(25, 128);
             this.txt_Width.Name = "txt_Width";
             this.txt_Width.Size = new System.Drawing.Size(40, 23);
             this.txt_Width.TabIndex = 5;
             // 
             // txt_OW
             // 
-            this.txt_OW.Location = new System.Drawing.Point(70, 99);
+            this.txt_OW.Location = new System.Drawing.Point(71, 128);
             this.txt_OW.Name = "txt_OW";
             this.txt_OW.Size = new System.Drawing.Size(40, 23);
             this.txt_OW.TabIndex = 14;
             // 
             // txt_OH
             // 
-            this.txt_OH.Location = new System.Drawing.Point(70, 128);
+            this.txt_OH.Location = new System.Drawing.Point(71, 100);
             this.txt_OH.Name = "txt_OH";
             this.txt_OH.Size = new System.Drawing.Size(40, 23);
             this.txt_OH.TabIndex = 15;
@@ -194,12 +199,61 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "C";
             // 
+            // txtFilter
+            // 
+            this.txtFilter.Location = new System.Drawing.Point(48, 186);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(64, 23);
+            this.txtFilter.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label4.Location = new System.Drawing.Point(7, 195);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 15);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Filter";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label5.Location = new System.Drawing.Point(3, 223);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(39, 15);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Status";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label6.Location = new System.Drawing.Point(5, 166);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 15);
+            this.label6.TabIndex = 20;
+            this.label6.Text = "Timer";
+            // 
+            // txtLoop
+            // 
+            this.txtLoop.Location = new System.Drawing.Point(117, 43);
+            this.txtLoop.Name = "txtLoop";
+            this.txtLoop.Size = new System.Drawing.Size(40, 23);
+            this.txtLoop.TabIndex = 21;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1149, 450);
+            this.Controls.Add(this.txtLoop);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.txtFilter);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txt_OH);
             this.Controls.Add(this.txt_OW);
@@ -218,7 +272,7 @@
             this.Controls.Add(this.btn_Stop);
             this.Controls.Add(this.btn_Start);
             this.Name = "Form1";
-            this.Text = "ImageSlider";
+            this.Text = "ImageSlider V 231021";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -244,5 +298,10 @@
         private TextBox txt_OW;
         private TextBox txt_OH;
         private Label label3;
+        private TextBox txtFilter;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private TextBox txtLoop;
     }
 }
