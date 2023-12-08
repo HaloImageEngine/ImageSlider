@@ -50,6 +50,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtLoop = new System.Windows.Forms.TextBox();
+            this.txtFilterMin = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -126,9 +127,9 @@
             // 
             // txt_Folder
             // 
-            this.txt_Folder.Location = new System.Drawing.Point(5, 244);
+            this.txt_Folder.Location = new System.Drawing.Point(115, 43);
             this.txt_Folder.Name = "txt_Folder";
-            this.txt_Folder.Size = new System.Drawing.Size(142, 23);
+            this.txt_Folder.Size = new System.Drawing.Size(153, 23);
             this.txt_Folder.TabIndex = 9;
             this.txt_Folder.Visible = false;
             // 
@@ -152,7 +153,7 @@
             // 
             this.txt_Type.Location = new System.Drawing.Point(48, 215);
             this.txt_Type.Name = "txt_Type";
-            this.txt_Type.Size = new System.Drawing.Size(109, 23);
+            this.txt_Type.Size = new System.Drawing.Size(131, 23);
             this.txt_Type.TabIndex = 12;
             // 
             // dd_Folder
@@ -238,10 +239,17 @@
             // 
             // txtLoop
             // 
-            this.txtLoop.Location = new System.Drawing.Point(117, 43);
+            this.txtLoop.Location = new System.Drawing.Point(274, 41);
             this.txtLoop.Name = "txtLoop";
             this.txtLoop.Size = new System.Drawing.Size(40, 23);
             this.txtLoop.TabIndex = 21;
+            // 
+            // txtFilterMin
+            // 
+            this.txtFilterMin.Location = new System.Drawing.Point(115, 187);
+            this.txtFilterMin.Name = "txtFilterMin";
+            this.txtFilterMin.Size = new System.Drawing.Size(64, 23);
+            this.txtFilterMin.TabIndex = 22;
             // 
             // Form1
             // 
@@ -249,6 +257,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1149, 450);
+            this.Controls.Add(this.txtFilterMin);
             this.Controls.Add(this.txtLoop);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -303,5 +312,6 @@
         private Label label5;
         private Label label6;
         private TextBox txtLoop;
+        private TextBox txtFilterMin;
     }
 }
