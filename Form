@@ -1,0 +1,47 @@
+1.cs
+public static async Task<Image?> GetImageInfo(string url)
+{
+    string savePathDir = "D:\\ImageSave";
+    Image? img = null;
+
+    try
+    {
+        VerifyDir(savePathDir);
+        string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
+        string savePath = Path.Combine(savePathDir, fileName);
+
+        using (HttpClient client = new HttpClient())
+        {
+            using (var response = await client.GetAsync(url))
+            {
+                response.EnsureSuccessStatusCode();
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                {
+                    // The stream from HttpClient must be copied to a MemoryStream
+                    // because the Image.FromStream method keeps a lock on the stream.
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        memoryStream.Position = 0; // Reset stream position
+                        img = Image.FromStream(memoryStream);
+
+                        // Save the image to the specified directory
+                        await using (var fileStream = new FileStream(savePath, FileMode.Create))
+                        {
+                            memoryStream.Position = 0;
+                            await memoryStream.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Logger($"Error in GetImageInfo: {ex.Message}");
+        // Return null if any error occurs
+        return null;
+    }
+
+    return img;
+}

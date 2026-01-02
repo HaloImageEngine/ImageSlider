@@ -55,6 +55,8 @@
             btnInsertURL = new Button();
             txtUserID = new TextBox();
             txtUserAlias = new TextBox();
+            txt_ICategory = new TextBox();
+            txt_IAlbum = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -90,14 +92,14 @@
             // 
             // txt_Counter
             // 
-            txt_Counter.Location = new Point(71, 128);
+            txt_Counter.Location = new Point(72, 128);
             txt_Counter.Name = "txt_Counter";
             txt_Counter.Size = new Size(40, 23);
             txt_Counter.TabIndex = 3;
             // 
             // txt_FileName
             // 
-            txt_FileName.Location = new Point(274, 15);
+            txt_FileName.Location = new Point(274, 13);
             txt_FileName.Name = "txt_FileName";
             txt_FileName.Size = new Size(306, 23);
             txt_FileName.TabIndex = 4;
@@ -113,7 +115,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(3, 148);
+            label1.Location = new Point(3, 155);
             label1.Name = "label1";
             label1.Size = new Size(16, 15);
             label1.TabIndex = 7;
@@ -123,7 +125,7 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.ButtonHighlight;
-            label2.Location = new Point(3, 180);
+            label2.Location = new Point(3, 187);
             label2.Name = "label2";
             label2.Size = new Size(18, 15);
             label2.TabIndex = 8;
@@ -131,7 +133,7 @@
             // 
             // txt_Folder
             // 
-            txt_Folder.Location = new Point(117, 43);
+            txt_Folder.Location = new Point(116, 41);
             txt_Folder.Name = "txt_Folder";
             txt_Folder.Size = new Size(151, 23);
             txt_Folder.TabIndex = 9;
@@ -139,9 +141,9 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(120, 12);
+            pictureBox1.Location = new Point(460, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1006, 426);
+            pictureBox1.Size = new Size(666, 426);
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
@@ -163,7 +165,7 @@
             // 
             dd_Folder.AutoCompleteCustomSource.AddRange(new string[] { "I://GFEOF", "O://GFE//FEAmber/Images", "I://Backgrounds" });
             dd_Folder.FormattingEnabled = true;
-            dd_Folder.Location = new Point(115, 14);
+            dd_Folder.Location = new Point(115, 12);
             dd_Folder.Name = "dd_Folder";
             dd_Folder.Size = new Size(153, 23);
             dd_Folder.TabIndex = 13;
@@ -195,7 +197,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.ButtonHighlight;
-            label3.Location = new Point(4, 122);
+            label3.Location = new Point(4, 129);
             label3.Name = "label3";
             label3.Size = new Size(15, 15);
             label3.TabIndex = 16;
@@ -212,7 +214,7 @@
             // 
             label4.AutoSize = true;
             label4.ForeColor = SystemColors.ButtonHighlight;
-            label4.Location = new Point(4, 238);
+            label4.Location = new Point(4, 243);
             label4.Name = "label4";
             label4.Size = new Size(33, 15);
             label4.TabIndex = 18;
@@ -222,7 +224,7 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = SystemColors.ButtonHighlight;
-            label5.Location = new Point(3, 267);
+            label5.Location = new Point(3, 272);
             label5.Name = "label5";
             label5.Size = new Size(39, 15);
             label5.TabIndex = 19;
@@ -240,7 +242,7 @@
             // 
             // txtLoop
             // 
-            txtLoop.Location = new Point(274, 43);
+            txtLoop.Location = new Point(274, 41);
             txtLoop.Name = "txtLoop";
             txtLoop.Size = new Size(40, 23);
             txtLoop.TabIndex = 21;
@@ -263,7 +265,7 @@
             // 
             btnInsertURL.BackColor = SystemColors.ActiveBorder;
             btnInsertURL.ForeColor = SystemColors.ActiveCaptionText;
-            btnInsertURL.Location = new Point(12, 386);
+            btnInsertURL.Location = new Point(12, 317);
             btnInsertURL.Name = "btnInsertURL";
             btnInsertURL.Size = new Size(97, 23);
             btnInsertURL.TabIndex = 24;
@@ -285,12 +287,28 @@
             txtUserAlias.Size = new Size(97, 23);
             txtUserAlias.TabIndex = 26;
             // 
+            // txt_ICategory
+            // 
+            txt_ICategory.Location = new Point(12, 386);
+            txt_ICategory.Name = "txt_ICategory";
+            txt_ICategory.Size = new Size(131, 23);
+            txt_ICategory.TabIndex = 27;
+            // 
+            // txt_IAlbum
+            // 
+            txt_IAlbum.Location = new Point(149, 386);
+            txt_IAlbum.Name = "txt_IAlbum";
+            txt_IAlbum.Size = new Size(131, 23);
+            txt_IAlbum.TabIndex = 28;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1149, 450);
+            Controls.Add(txt_IAlbum);
+            Controls.Add(txt_ICategory);
             Controls.Add(txtUserAlias);
             Controls.Add(txtUserID);
             Controls.Add(btnInsertURL);
@@ -355,5 +373,7 @@
         private Button btnInsertURL;
         private TextBox txtUserID;
         private TextBox txtUserAlias;
+        private TextBox txt_ICategory;
+        private TextBox txt_IAlbum;
     }
 }

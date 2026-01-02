@@ -1507,10 +1507,11 @@ namespace ImageSlider
             return (Image)(new Bitmap(imgToResize, size));
         }
 
-        public static async Task<Image?> GetImageInfo(string url)
+        public static async Task<(Image? Image, long Size)?> GetImageInfo(string url)
         {
             string savePathDir = "D:\\ImageSave";
             Image? img = null;
+            long streamLength = 0;
 
             try
             {
@@ -1530,6 +1531,7 @@ namespace ImageSlider
                             using (var memoryStream = new MemoryStream())
                             {
                                 await stream.CopyToAsync(memoryStream);
+                                streamLength = memoryStream.Length; // Capture the stream length here
                                 memoryStream.Position = 0; // Reset stream position
                                 img = Image.FromStream(memoryStream);
 
@@ -1547,7 +1549,7 @@ namespace ImageSlider
                 return null;
             }
 
-            return img;
+            return (img, streamLength);
         }
 
 
@@ -1558,7 +1560,22 @@ namespace ImageSlider
             string useralias = txtUserAlias.Text;
             string imageurl = txtInputURL.Text.Trim();
 
-            Image? imginfo = await GetImageInfo(imageurl);
+            var imageResult = await GetImageInfo(imageurl);
+
+            if (imageResult == null)
+            {
+                MessageBox.Show("Failed to download or process the image.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var (imginfo, imageSize) = imageResult.Value;
+
+            string rotation = string.Empty;
+
+            if (imginfo.Height > imginfo.Width)
+            { rotation = "P"; }
+            else
+            { rotation = "L"; }
 
             ImageModel imgmod = new ImageModel
             {
@@ -1567,6 +1584,7 @@ namespace ImageSlider
                 Image_Height = imginfo.Height,
                 Image_Dimentions = $"{imginfo.Width}x{imginfo.Height}",
                 Image_Type = new ImageFormatConverter().ConvertToString(imginfo.RawFormat),
+                Image_Size = (int)imageSize, // Use the captured stream length
 
                 // Data from UI/URL
                 UserID = Convert.ToInt32(userid),
@@ -1579,80 +1597,22 @@ namespace ImageSlider
                 Image_Comment = "Test Comment",
                 Image_Description = "Test Description from URL",
                 Image_Date = DateTime.Now,
-                Image_Rotation = "0",
+                Image_Rotation = rotation,
                 Image_Category_ID = 1,
-                Image_Category = "Test Category",
+                Image_Category = txt_ICategory.Text,
                 Image_Album_ID = 1,
-                Image_Album_Name = "Test Album",
+                Image_Album_Name = txt_IAlbum.Text,
                 Image_Reference = "TestRef123",
                 ProfileCover = 0,
                 Random = 1,
                 Showcase = 0,
                 MediaPacketID = null,
                 Image_Media_Id = null,
-                Image_Media_Name = null,
-                Image_Size = null // This would require stream length, not available here
+                Image_Media_Name = null
             };
 
             int imageid = await da.InsertIMGURL(userid, useralias, imgmod);
         }
 
-
-
-        //private async void btnInsertURL_Click_1(object sender, EventArgs e)
-        //{
-        //    DataAccess da = new DataAccess();
-        //    string userid = txtUserID.Text;
-        //    string useralias = txtUserAlias.Text;
-        //    string imageurl = txtInputURL.Text.Trim();
-
-        //    Image? imginfo = await GetImageInfo(imageurl);
-
-        //    ImageModel imgmod = new ImageModel
-        //    {
-        //        // Data from imginfo
-        //        Image_Width = imginfo.Width,
-        //        Image_Height = imginfo.Height,
-        //        Image_Dimentions = $"{imginfo.Width}x{imginfo.Height}",
-        //        Image_Type = new ImageFormatConverter().ConvertToString(imginfo.RawFormat),
-
-        //        // Data from UI/URL
-        //        UserID = Convert.ToInt32(userid),
-        //        UserAlias = useralias,
-        //        Image_Location = imageurl,
-        //        Image_Location_Orig = imageurl,
-
-        //        // Test Data for other fields
-        //        Image_Location_Small = "pic01_sm.jpg",
-        //        Image_Comment = "Test Comment",
-        //        Image_Description = "Test Description from URL",
-        //        Image_Date = DateTime.Now,
-        //        Image_Rotation = "0",
-        //        Image_Category_ID = 1,
-        //        Image_Category = "Test Category",
-        //        Image_Album_ID = 1,
-        //        Image_Album_Name = "Test Album",
-        //        Image_Reference = "TestRef123",
-        //        ProfileCover = 0,
-        //        Random = 1,
-        //        Showcase = 0,
-        //        MediaPacketID = null,
-        //        Image_Media_Id = null,
-        //        Image_Media_Name = null,
-        //        Image_Size = null // This would require stream length, not available here
-        //    };
-
-        //    int imageid = await da.InsertIMGURL(userid, useralias, imgmod);
-        //}
-
-            //private static Image ResizePhoto(FileInfo sourceImage, int desiredWidth, int desiredHeight)
-            //{
-            //    //throw error if bouning box is to small
-            //    if (desiredWidth < 4 || desiredHeight < 4)
-            //        throw new InvalidOperationException("Bounding Box of Resize Photo must be larger than 4X4 pixels.");
-            //    var original = Bitmap.FromFile(sourceImage.FullName);
-
-            //    //store image width
-            //}
-        }
+    }
 }
