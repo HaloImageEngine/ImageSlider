@@ -167,6 +167,8 @@
             dd_Folder.Name = "dd_Folder";
             dd_Folder.Size = new Size(153, 23);
             dd_Folder.TabIndex = 13;
+            dd_Folder.SelectedIndexChanged += dd_Folder_SelectedIndexChanged;
+            dd_Folder.SelectionChangeCommitted += dd_Folder_SelectionChangeCommitted;
             // 
             // txt_Width
             // 
@@ -267,7 +269,7 @@
             btnInsertURL.TabIndex = 24;
             btnInsertURL.Text = "Insert";
             btnInsertURL.UseVisualStyleBackColor = false;
-            btnInsertURL.Click += btnInsertURL_Click_1;
+            btnInsertURL.Click += btnInsertURL_Click;
             // 
             // txtUserID
             // 

@@ -1,10 +1,11 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Runtime.InteropServices;
+﻿using ImageSlider.Models;
 using ImageSlider.Services;
 using System.Configuration;
-using ImageSlider.Services;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Security.Policy;
 
 namespace ImageSlider
 {
@@ -1229,6 +1230,34 @@ namespace ImageSlider
         /// Updates the pictureBox1 image to show the portion of the main image
         /// the mouse is currently over.
         /// </summary>
+        /// 
+        private void dd_Folder_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (dd_Folder.SelectedValue.ToString().Contains("X"))
+            {
+                this.txtFilter.Text = "SZ";
+                this.txtFilterMin.Text = "";
+            }
+            if (!dd_Folder.SelectedValue.ToString().Contains("Backgrounds"))
+            {
+                this.txtFilter.Text = "";
+                this.txtFilterMin.Text = "";
+            }
+
+
+        }
+
+        private void dd_Folder_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Item obj = dd_Folder.SelectedItem as Item;
+            if (obj != null)
+            {
+                txt_Folder.Text = obj.Value.ToString();
+                dd_Folder.Text = obj.Value.ToString();
+            }
+
+
+        }
 
         public async Task CheckDelayAsync(string fileName, CancellationToken token)
         {
@@ -1478,32 +1507,152 @@ namespace ImageSlider
             return (Image)(new Bitmap(imgToResize, size));
         }
 
+        public static async Task<Image?> GetImageInfo(string url)
+        {
+            string savePathDir = "D:\\ImageSave";
+            Image? img = null;
+
+            try
+            {
+                VerifyDir(savePathDir);
+                string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
+                string savePath = Path.Combine(savePathDir, fileName);
+
+                using (HttpClient client = new HttpClient())
+                {
+                    using (var response = await client.GetAsync(url))
+                    {
+                        response.EnsureSuccessStatusCode();
+                        using (var stream = await response.Content.ReadAsStreamAsync())
+                        {
+                            // The stream from HttpClient must be copied to a MemoryStream
+                            // because the Image.FromStream method keeps a lock on the stream.
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await stream.CopyToAsync(memoryStream);
+                                memoryStream.Position = 0; // Reset stream position
+                                img = Image.FromStream(memoryStream);
+
+                                // Save the image to the specified directory
+                                img.Save(savePath);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger($"Error in GetImageInfo: {ex.Message}");
+                // Return null if any error occurs
+                return null;
+            }
+
+            return img;
+        }
+
+
         private async void btnInsertURL_Click(object sender, EventArgs e)
         {
             DataAccess da = new DataAccess();
             string userid = txtUserID.Text;
             string useralias = txtUserAlias.Text;
             string imageurl = txtInputURL.Text.Trim();
-            int imageid = await da.InsertIMGURL(userid, useralias, imageurl);
+
+            Image? imginfo = await GetImageInfo(imageurl);
+
+            ImageModel imgmod = new ImageModel
+            {
+                // Data from imginfo
+                Image_Width = imginfo.Width,
+                Image_Height = imginfo.Height,
+                Image_Dimentions = $"{imginfo.Width}x{imginfo.Height}",
+                Image_Type = new ImageFormatConverter().ConvertToString(imginfo.RawFormat),
+
+                // Data from UI/URL
+                UserID = Convert.ToInt32(userid),
+                UserAlias = useralias,
+                Image_Location = imageurl,
+                Image_Location_Orig = imageurl,
+
+                // Test Data for other fields
+                Image_Location_Small = "pic01_sm.jpg",
+                Image_Comment = "Test Comment",
+                Image_Description = "Test Description from URL",
+                Image_Date = DateTime.Now,
+                Image_Rotation = "0",
+                Image_Category_ID = 1,
+                Image_Category = "Test Category",
+                Image_Album_ID = 1,
+                Image_Album_Name = "Test Album",
+                Image_Reference = "TestRef123",
+                ProfileCover = 0,
+                Random = 1,
+                Showcase = 0,
+                MediaPacketID = null,
+                Image_Media_Id = null,
+                Image_Media_Name = null,
+                Image_Size = null // This would require stream length, not available here
+            };
+
+            int imageid = await da.InsertIMGURL(userid, useralias, imgmod);
         }
 
-        private async void btnInsertURL_Click_1(object sender, EventArgs e)
-        {
-            DataAccess da = new DataAccess();
-            string userid = txtUserID.Text;
-            string useralias = txtUserAlias.Text;
-            string imageurl = txtInputURL.Text.Trim();
-            int imageid = await da.InsertIMGURL(userid, useralias, imageurl);
-        }
 
-        //private static Image ResizePhoto(FileInfo sourceImage, int desiredWidth, int desiredHeight)
+
+        //private async void btnInsertURL_Click_1(object sender, EventArgs e)
         //{
-        //    //throw error if bouning box is to small
-        //    if (desiredWidth < 4 || desiredHeight < 4)
-        //        throw new InvalidOperationException("Bounding Box of Resize Photo must be larger than 4X4 pixels.");
-        //    var original = Bitmap.FromFile(sourceImage.FullName);
+        //    DataAccess da = new DataAccess();
+        //    string userid = txtUserID.Text;
+        //    string useralias = txtUserAlias.Text;
+        //    string imageurl = txtInputURL.Text.Trim();
 
-        //    //store image width
+        //    Image? imginfo = await GetImageInfo(imageurl);
+
+        //    ImageModel imgmod = new ImageModel
+        //    {
+        //        // Data from imginfo
+        //        Image_Width = imginfo.Width,
+        //        Image_Height = imginfo.Height,
+        //        Image_Dimentions = $"{imginfo.Width}x{imginfo.Height}",
+        //        Image_Type = new ImageFormatConverter().ConvertToString(imginfo.RawFormat),
+
+        //        // Data from UI/URL
+        //        UserID = Convert.ToInt32(userid),
+        //        UserAlias = useralias,
+        //        Image_Location = imageurl,
+        //        Image_Location_Orig = imageurl,
+
+        //        // Test Data for other fields
+        //        Image_Location_Small = "pic01_sm.jpg",
+        //        Image_Comment = "Test Comment",
+        //        Image_Description = "Test Description from URL",
+        //        Image_Date = DateTime.Now,
+        //        Image_Rotation = "0",
+        //        Image_Category_ID = 1,
+        //        Image_Category = "Test Category",
+        //        Image_Album_ID = 1,
+        //        Image_Album_Name = "Test Album",
+        //        Image_Reference = "TestRef123",
+        //        ProfileCover = 0,
+        //        Random = 1,
+        //        Showcase = 0,
+        //        MediaPacketID = null,
+        //        Image_Media_Id = null,
+        //        Image_Media_Name = null,
+        //        Image_Size = null // This would require stream length, not available here
+        //    };
+
+        //    int imageid = await da.InsertIMGURL(userid, useralias, imgmod);
         //}
-    }
+
+            //private static Image ResizePhoto(FileInfo sourceImage, int desiredWidth, int desiredHeight)
+            //{
+            //    //throw error if bouning box is to small
+            //    if (desiredWidth < 4 || desiredHeight < 4)
+            //        throw new InvalidOperationException("Bounding Box of Resize Photo must be larger than 4X4 pixels.");
+            //    var original = Bitmap.FromFile(sourceImage.FullName);
+
+            //    //store image width
+            //}
+        }
 }
