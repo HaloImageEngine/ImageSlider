@@ -132,6 +132,58 @@ namespace ImageSlider
             }
         }
 
+        /// <summary>
+        /// Creates a thumbnail from the provided image and saves it to the configured thumbnail folder.
+        /// /// <param name="img">The source image to create a thumbnail from.</param>
+        /// <param name="originalFileName">Optional original file name to use for the thumbnail.</param>
+        /// <returns>The path to the saved thumbnail file, or null if creation failed.</returns>
+        private string? CreateThumbNail(Image img, string? originalFileName = null)
+        {
+     
+            try
+            {
+                string thumbNailFolder = ConfigurationManager.AppSettings["ThumbNailFolder"] ?? "D:\\ImageSaveThumb";
+                int maxWidth = int.Parse(ConfigurationManager.AppSettings["ThumbnailMaxWidth"] ?? "200");
+                int maxHeight = int.Parse(ConfigurationManager.AppSettings["ThumbnailMaxHeight"] ?? "200");
+                
+                // Ensure the thumbnail directory exists
+                VerifyDir(thumbNailFolder);
+                
+                // Create the thumbnail using the existing ScaleImage method
+                Image thumbnail = ScaleImage(img, maxWidth, maxHeight);
+                
+                // Generate thumbnail filename
+                string thumbFileName;
+                if (!string.IsNullOrEmpty(originalFileName))
+                {
+                    string fileNameWithoutExt = Path.GetFileNameWithoutExtension(originalFileName);
+                    string extension = Path.GetExtension(originalFileName);
+                    thumbFileName = $"{fileNameWithoutExt}_thumb{extension}";
+                }
+                else
+                {
+                    thumbFileName = $"thumb_{DateTime.Now:yyyyMMddHHmmss}.jpg";
+                }
+                
+                string thumbPath = Path.Combine(thumbNailFolder, thumbFileName);
+                
+                // Save the thumbnail
+                thumbnail.Save(thumbPath, ImageFormat.Jpeg);
+                
+                Logger($"Thumbnail created successfully: {thumbPath}");
+                
+                // Dispose the thumbnail after saving
+                thumbnail.Dispose();
+                
+                return thumbPath;
+            }
+            catch (Exception ex)
+            {
+                Logger($"Error creating thumbnail: {ex.Message}");
+                return null;
+            }
+        }
+
         private async Task Start_ProcessAsync()
         {
             ImageLogger("ImageSlider Started", "");
@@ -159,15 +211,21 @@ namespace ImageSlider
                         {
                             cntr++;
                             
-                            // ADD THIS LINE TO UPDATE THE COUNTER DISPLAY
                             txt_Counter.Text = cntr.ToString();
                             txt_Counter.Refresh();
                             
                             ImageLogger(fileName, cntr.ToString());
                             Logger($"Start Of Error Watch: ");
 
+                            // ✅ CREATE THUMBNAIL HERE - After loading, before processing
+                            //string? thumbnailPath = CreateThumbNail(img, fileName);
+                            //if (thumbnailPath != null)
+                            //{
+                            //    Logger($"Thumbnail created: {thumbnailPath}");
+                            //}
+
                             Image? newDisplayImage = await ProcessImageAsync(img, fileName);
-        
+    
                             if (this.CheckClose == string.Empty)
                             {
                                 await UpdateUIAndDisplayImageAsync(img, newDisplayImage, fileName);
@@ -1680,6 +1738,13 @@ namespace ImageSlider
                 
                 Logger($"Image downloaded successfully - Size: {imageSize} bytes, Dimensions: {imginfo.Width}x{imginfo.Height}");
 
+                // ✅ CREATE THUMBNAIL HERE - After download, before database insert
+                string? thumbnailPath = CreateThumbNail(imginfo);
+                if (thumbnailPath != null)
+                {
+                    Logger($"Thumbnail created for downloaded image: {thumbnailPath}");
+                }
+
                 string rotation = string.Empty;
 
                 if (imginfo.Height > imginfo.Width)
@@ -1702,8 +1767,12 @@ namespace ImageSlider
                     Image_Location = imageurl,
                     Image_Location_Orig = imageurl,
 
+                    // ✅ OPTIONALLY: Store the thumbnail path in the model
+                    Image_Location_Small = thumbnailPath != null ? Path.GetFileName(thumbnailPath) : "no_thumbnail.jpg",
+
+
                     // Test Data for other fields
-                    Image_Location_Small = "pic01_sm.jpg",
+                    
                     Image_Comment = txt_IComment.Text,
                     Image_Description = txt_IDescription.Text,
                     Image_Date = DateTime.Now,
