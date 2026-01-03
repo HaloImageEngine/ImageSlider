@@ -110,6 +110,8 @@ namespace ImageSlider
             btn_Start.Enabled = false;
             btn_Stop.Enabled = true;
 
+            this.panel1.Visible = false;
+
             try
             {
                 await Start_ProcessAsync();

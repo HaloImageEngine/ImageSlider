@@ -51,15 +51,17 @@
             label6 = new Label();
             txtLoop = new TextBox();
             txtFilterMin = new TextBox();
-            txtInputURL = new TextBox();
-            btnInsertURL = new Button();
             txtUserID = new TextBox();
             txtUserAlias = new TextBox();
-            txt_ICategory = new TextBox();
-            txt_IAlbum = new TextBox();
-            txt_IComment = new TextBox();
+            panel1 = new Panel();
             txt_IDescription = new TextBox();
+            txt_IComment = new TextBox();
+            txt_IAlbum = new TextBox();
+            txt_ICategory = new TextBox();
+            btnInsertURL = new Button();
+            txtInputURL = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // btn_Start
@@ -143,9 +145,9 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(27, 12);
+            pictureBox1.Location = new Point(342, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1233, 600);
+            pictureBox1.Size = new Size(918, 600);
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
@@ -256,25 +258,6 @@
             txtFilterMin.Size = new Size(64, 23);
             txtFilterMin.TabIndex = 22;
             // 
-            // txtInputURL
-            // 
-            txtInputURL.Location = new Point(11, 592);
-            txtInputURL.Name = "txtInputURL";
-            txtInputURL.Size = new Size(1249, 23);
-            txtInputURL.TabIndex = 23;
-            // 
-            // btnInsertURL
-            // 
-            btnInsertURL.BackColor = SystemColors.ActiveBorder;
-            btnInsertURL.ForeColor = SystemColors.ActiveCaptionText;
-            btnInsertURL.Location = new Point(10, 478);
-            btnInsertURL.Name = "btnInsertURL";
-            btnInsertURL.Size = new Size(97, 23);
-            btnInsertURL.TabIndex = 24;
-            btnInsertURL.Text = "Insert";
-            btnInsertURL.UseVisualStyleBackColor = false;
-            btnInsertURL.Click += btnInsertURL_Click;
-            // 
             // txtUserID
             // 
             txtUserID.Location = new Point(14, 12);
@@ -289,37 +272,68 @@
             txtUserAlias.Size = new Size(97, 23);
             txtUserAlias.TabIndex = 26;
             // 
-            // txt_ICategory
+            // panel1
             // 
-            txt_ICategory.Location = new Point(10, 507);
-            txt_ICategory.Name = "txt_ICategory";
-            txt_ICategory.Size = new Size(131, 23);
-            txt_ICategory.TabIndex = 27;
-            txt_ICategory.Text = "Category";
-            // 
-            // txt_IAlbum
-            // 
-            txt_IAlbum.Location = new Point(147, 507);
-            txt_IAlbum.Name = "txt_IAlbum";
-            txt_IAlbum.Size = new Size(131, 23);
-            txt_IAlbum.TabIndex = 28;
-            txt_IAlbum.Text = "Album";
-            // 
-            // txt_IComment
-            // 
-            txt_IComment.Location = new Point(11, 536);
-            txt_IComment.Name = "txt_IComment";
-            txt_IComment.Size = new Size(268, 23);
-            txt_IComment.TabIndex = 29;
-            txt_IComment.Text = "Comment";
+            panel1.Controls.Add(txt_IDescription);
+            panel1.Controls.Add(txt_IComment);
+            panel1.Controls.Add(txt_IAlbum);
+            panel1.Controls.Add(txt_ICategory);
+            panel1.Controls.Add(btnInsertURL);
+            panel1.Controls.Add(txtInputURL);
+            panel1.Location = new Point(4, 437);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(332, 169);
+            panel1.TabIndex = 31;
             // 
             // txt_IDescription
             // 
-            txt_IDescription.Location = new Point(12, 565);
+            txt_IDescription.Location = new Point(12, 102);
             txt_IDescription.Name = "txt_IDescription";
             txt_IDescription.Size = new Size(268, 23);
-            txt_IDescription.TabIndex = 30;
+            txt_IDescription.TabIndex = 36;
             txt_IDescription.Text = "Description";
+            // 
+            // txt_IComment
+            // 
+            txt_IComment.Location = new Point(11, 73);
+            txt_IComment.Name = "txt_IComment";
+            txt_IComment.Size = new Size(268, 23);
+            txt_IComment.TabIndex = 35;
+            txt_IComment.Text = "Comment";
+            // 
+            // txt_IAlbum
+            // 
+            txt_IAlbum.Location = new Point(147, 44);
+            txt_IAlbum.Name = "txt_IAlbum";
+            txt_IAlbum.Size = new Size(131, 23);
+            txt_IAlbum.TabIndex = 34;
+            txt_IAlbum.Text = "Album";
+            // 
+            // txt_ICategory
+            // 
+            txt_ICategory.Location = new Point(10, 44);
+            txt_ICategory.Name = "txt_ICategory";
+            txt_ICategory.Size = new Size(131, 23);
+            txt_ICategory.TabIndex = 33;
+            txt_ICategory.Text = "Category";
+            // 
+            // btnInsertURL
+            // 
+            btnInsertURL.BackColor = SystemColors.ActiveBorder;
+            btnInsertURL.ForeColor = SystemColors.ActiveCaptionText;
+            btnInsertURL.Location = new Point(10, 15);
+            btnInsertURL.Name = "btnInsertURL";
+            btnInsertURL.Size = new Size(97, 23);
+            btnInsertURL.TabIndex = 32;
+            btnInsertURL.Text = "Insert";
+            btnInsertURL.UseVisualStyleBackColor = false;
+            // 
+            // txtInputURL
+            // 
+            txtInputURL.Location = new Point(11, 129);
+            txtInputURL.Name = "txtInputURL";
+            txtInputURL.Size = new Size(269, 23);
+            txtInputURL.TabIndex = 31;
             // 
             // Form1
             // 
@@ -327,16 +341,11 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1272, 624);
-            Controls.Add(txt_IDescription);
-            Controls.Add(txt_IComment);
+            Controls.Add(panel1);
             Controls.Add(txt_Folder);
             Controls.Add(txt_FileName);
-            Controls.Add(txt_IAlbum);
-            Controls.Add(txt_ICategory);
             Controls.Add(txtUserAlias);
             Controls.Add(txtUserID);
-            Controls.Add(btnInsertURL);
-            Controls.Add(txtInputURL);
             Controls.Add(txtFilterMin);
             Controls.Add(txtLoop);
             Controls.Add(label6);
@@ -361,6 +370,8 @@
             Name = "Form1";
             Text = "VeeBro ImageSlider V 260000 .Net8";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -391,13 +402,14 @@
         private Label label6;
         private TextBox txtLoop;
         private TextBox txtFilterMin;
-        private TextBox txtInputURL;
-        private Button btnInsertURL;
         private TextBox txtUserID;
         private TextBox txtUserAlias;
-        private TextBox txt_ICategory;
-        private TextBox txt_IAlbum;
-        private TextBox txt_IComment;
+        private Panel panel1;
         private TextBox txt_IDescription;
+        private TextBox txt_IComment;
+        private TextBox txt_IAlbum;
+        private TextBox txt_ICategory;
+        private Button btnInsertURL;
+        private TextBox txtInputURL;
     }
 }
