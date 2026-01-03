@@ -21,7 +21,6 @@ namespace ImageSlider
         {
             InitializeComponent();
 
-
             ToolTip tip = new ToolTip();
             tip.SetToolTip(txtUserID, "Enter your UserID");
 
@@ -75,8 +74,35 @@ namespace ImageSlider
             dd_Folder.DisplayMember = "Text";
             dd_Folder.ValueMember = "Value";
 
+            LoadStartup(); // Call the new method
         }
 
+        private void LoadStartup()
+        {
+            string? startupFolder = ConfigurationManager.AppSettings["StartUpFolder"];
+            string? startupPic = ConfigurationManager.AppSettings["StartUpPic"];
+
+            if (!string.IsNullOrEmpty(startupFolder) && !string.IsNullOrEmpty(startupPic))
+            {
+                try
+                {
+                    string imagePath = Path.Combine(startupFolder, startupPic);
+                    if (File.Exists(imagePath))
+                    {
+                        pictureBox1.Image = Image.FromFile(imagePath);
+                        pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
+                    }
+                    else
+                    {
+                        Logger($"Startup image not found at: {imagePath}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger($"Error loading startup image: {ex.Message}");
+                }
+            }
+        }
 
         private async void btn_Start_Click(object sender, EventArgs e)
         {
@@ -404,7 +430,7 @@ namespace ImageSlider
                                                     newDisplayImage = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4));
                                                     pictureBox1.Image = newDisplayImage;
                                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                                                    pictureBox1.Refresh();
+                                                    this.pictureBox1.Refresh();
                                                     txt_OH.Text = newDisplayImage.Height.ToString();
                                                     txt_OW.Text = newDisplayImage.Width.ToString();
                                                     txt_Height.BackColor = Color.LightPink;
@@ -918,7 +944,7 @@ namespace ImageSlider
                                                     newDisplayImage = resizeImage(img, new Size((img.Width / mult) - wmin4, (img.Height / mult) - hmin4));
                                                     pictureBox1.Image = newDisplayImage;
                                                     pictureBox1.SizeMode = PictureBoxSizeMode.CenterImage;
-                                                    pictureBox1.Refresh();
+                                                    this.pictureBox1.Refresh();
                                                     txt_OH.Text = newDisplayImage.Height.ToString();
                                                     txt_OW.Text = newDisplayImage.Width.ToString();
                                                     txt_Height.BackColor = Color.LightPink;

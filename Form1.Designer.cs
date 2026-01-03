@@ -143,9 +143,9 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(639, 12);
+            pictureBox1.Location = new Point(27, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(621, 600);
+            pictureBox1.Size = new Size(1233, 600);
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
