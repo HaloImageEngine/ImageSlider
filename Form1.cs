@@ -121,6 +121,7 @@ namespace ImageSlider
             txt_ICategory.Visible = false;
             btnInsertURL.Visible = false;
             txtInputURL.Visible = false;
+            panel1.Visible = false;
 
             try
             {
@@ -217,13 +218,6 @@ namespace ImageSlider
                             ImageLogger(fileName, cntr.ToString());
                             Logger($"Start Of Error Watch: ");
 
-                            // ✅ CREATE THUMBNAIL HERE - After loading, before processing
-                            //string? thumbnailPath = CreateThumbNail(img, fileName);
-                            //if (thumbnailPath != null)
-                            //{
-                            //    Logger($"Thumbnail created: {thumbnailPath}");
-                            //}
-
                             Image? newDisplayImage = await ProcessImageAsync(img, fileName);
     
                             if (this.CheckClose == string.Empty)
@@ -248,8 +242,9 @@ namespace ImageSlider
                     }
                 }
                 
-                // Show completion message when the loop completes successfully
-                MessageBox.Show($"Number of Images Requested has been met: {txt_Count.Text}", 
+                // ✅ FIXED: Add 'this' as owner parameter
+                MessageBox.Show(this, 
+                                $"Number of Images Requested has been met: {txt_Count.Text}", 
                                 "Slideshow Complete", 
                                 MessageBoxButtons.OK, 
                                 MessageBoxIcon.Information);
@@ -260,7 +255,13 @@ namespace ImageSlider
             catch (Exception ex)
             {
                 Logger($"Fatal error in Start_Process: {ex.Message}");
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                // ✅ FIXED: Add 'this' as owner parameter
+                MessageBox.Show(this, 
+                                $"An error occurred: {ex.Message}", 
+                                "Error", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Error);
             }
             finally
             {
@@ -1228,7 +1229,13 @@ namespace ImageSlider
             catch (Exception ex)
             {
                 Logger($"Fatal error in Start_Process: {ex.Message}");
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    
+                // ✅ FIXED: Add 'this' as owner parameter
+                MessageBox.Show(this, 
+                                $"An error occurred: {ex.Message}", 
+                                "Error", 
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Error);
             }
             finally
             {
@@ -1664,7 +1671,9 @@ namespace ImageSlider
             try
             {
                 VerifyDir(savePathDir);
-                string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
+                
+                // ✅ CHANGED: Use new naming convention instead of original filename
+                string fileName = $"image_{DateTime.Now:yyyyMMddHHmmss}.jpg";
                 string savePath = Path.Combine(savePathDir, fileName);
 
                 using (HttpClient client = new HttpClient())
@@ -1683,12 +1692,14 @@ namespace ImageSlider
                                 memoryStream.Position = 0; // Reset stream position
                                 img = Image.FromStream(memoryStream);
 
-                                // Save the image to the specified directory
-                                img.Save(savePath);
+                                // Save the image to the specified directory with new name
+                                img.Save(savePath, ImageFormat.Jpeg);
                             }
                         }
                     }
                 }
+                
+                Logger($"Image saved as: {fileName}");
             }
             catch (Exception ex)
             {
@@ -1711,7 +1722,13 @@ namespace ImageSlider
                 if (string.IsNullOrWhiteSpace(txtInputURL.Text))
                 {
                     Logger("Error: URL input is empty");
-                    MessageBox.Show("Please enter a valid image URL.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    
+                    // ✅ FIXED: Add 'this' as owner parameter
+                    MessageBox.Show(this, 
+                                  "Please enter a valid image URL.", 
+                                  "Error", 
+                                  MessageBoxButtons.OK, 
+                                  MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -1727,7 +1744,10 @@ namespace ImageSlider
                 if (imageResult == null)
                 {
                     Logger($"Error: Failed to download or process image from URL: {imageurl}");
-                    MessageBox.Show("Error loading Image\n\nFailed to download or process the image from the provided URL.", 
+                    
+                    // ✅ FIXED: Add 'this' as owner parameter
+                    MessageBox.Show(this, 
+                                  "Error loading Image\n\nFailed to download or process the image from the provided URL.", 
                                   "Error", 
                                   MessageBoxButtons.OK, 
                                   MessageBoxIcon.Error);
@@ -1797,38 +1817,50 @@ namespace ImageSlider
                 if (imageid > 0)
                 {
                     Logger($"Successful Image Insert - ImageID: {imageid}");
-                    MessageBox.Show($"Successful Image Insert\n\nImage ID: {imageid}\nDimensions: {imginfo.Width}x{imginfo.Height}\nSize: {imageSize:N0} bytes", 
+                    
+                    // ✅ FIXED: Add 'this' as owner parameter
+                    MessageBox.Show(this, 
+                                  $"Successful Image Insert\n\nImage ID: {imageid}\nDimensions: {imginfo.Width}x{imginfo.Height}\nSize: {imageSize:N0} bytes", 
                                   "Success", 
                                   MessageBoxButtons.OK, 
                                   MessageBoxIcon.Information);
-                    
-                    // Clear the URL input after successful insert
-                    txtInputURL.Text = string.Empty;
+            
+            // Clear the URL input after successful insert
+            txtInputURL.Text = string.Empty;
                 }
                 else
                 {
                     Logger($"Error: Database insert failed - ImageID returned: {imageid}");
-                    MessageBox.Show("Error loading Image\n\nFailed to insert image into the database.", 
-                                  "Error", 
-                                  MessageBoxButtons.OK, 
-                                  MessageBoxIcon.Error);
+            
+            // ✅ FIXED: Add 'this' as owner parameter
+            MessageBox.Show(this, 
+                          "Error loading Image\n\nFailed to insert image into the database.", 
+                          "Error", 
+                          MessageBoxButtons.OK, 
+                          MessageBoxIcon.Error);
                 }
             }
             catch (FormatException ex)
             {
                 Logger($"Format Error in btnInsertURL_Click: {ex.Message} - Invalid UserID or data format");
-                MessageBox.Show($"Error loading Image\n\nInvalid data format: {ex.Message}", 
-                              "Error", 
-                              MessageBoxButtons.OK, 
-                              MessageBoxIcon.Error);
+        
+        // ✅ FIXED: Add 'this' as owner parameter
+        MessageBox.Show(this, 
+                      $"Error loading Image\n\nInvalid data format: {ex.Message}", 
+                      "Error", 
+                      MessageBoxButtons.OK, 
+                      MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
                 Logger($"Unexpected Error in btnInsertURL_Click: {ex.Message}\nStackTrace: {ex.StackTrace}");
-                MessageBox.Show($"Error loading Image\n\n{ex.Message}", 
-                              "Error", 
-                              MessageBoxButtons.OK, 
-                              MessageBoxIcon.Error);
+        
+        // ✅ FIXED: Add 'this' as owner parameter
+        MessageBox.Show(this, 
+                      $"Error loading Image\n\n{ex.Message}", 
+                      "Error", 
+                      MessageBoxButtons.OK, 
+                      MessageBoxIcon.Error);
             }
         }
 

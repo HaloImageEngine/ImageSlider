@@ -83,7 +83,7 @@
             btn_Stop.Name = "btn_Stop";
             btn_Stop.Size = new Size(97, 23);
             btn_Stop.TabIndex = 1;
-            btn_Stop.Text = "Stop";
+            btn_Stop.Text = "Stop / Close";
             btn_Stop.UseVisualStyleBackColor = false;
             btn_Stop.Click += btn_Stop_Click;
             // 
