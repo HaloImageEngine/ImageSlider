@@ -145,9 +145,9 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(342, 12);
+            pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(918, 600);
+            pictureBox1.Size = new Size(1248, 600);
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
@@ -282,7 +282,7 @@
             panel1.Controls.Add(txtInputURL);
             panel1.Location = new Point(4, 437);
             panel1.Name = "panel1";
-            panel1.Size = new Size(332, 169);
+            panel1.Size = new Size(291, 169);
             panel1.TabIndex = 31;
             // 
             // txt_IDescription
@@ -307,7 +307,7 @@
             txt_IAlbum.Name = "txt_IAlbum";
             txt_IAlbum.Size = new Size(131, 23);
             txt_IAlbum.TabIndex = 34;
-            txt_IAlbum.Text = "Album";
+            txt_IAlbum.Text = "Adult";
             // 
             // txt_ICategory
             // 
@@ -315,7 +315,7 @@
             txt_ICategory.Name = "txt_ICategory";
             txt_ICategory.Size = new Size(131, 23);
             txt_ICategory.TabIndex = 33;
-            txt_ICategory.Text = "Category";
+            txt_ICategory.Text = "PornPics";
             // 
             // btnInsertURL
             // 
