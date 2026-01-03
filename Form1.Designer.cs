@@ -327,6 +327,7 @@
             btnInsertURL.TabIndex = 32;
             btnInsertURL.Text = "Insert";
             btnInsertURL.UseVisualStyleBackColor = false;
+            btnInsertURL.Click += btnInsertURL_Click;
             // 
             // txtInputURL
             // 
@@ -334,6 +335,7 @@
             txtInputURL.Name = "txtInputURL";
             txtInputURL.Size = new Size(269, 23);
             txtInputURL.TabIndex = 31;
+            txtInputURL.TextChanged += UpdateURLBox;
             // 
             // Form1
             // 

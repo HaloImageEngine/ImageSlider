@@ -75,6 +75,7 @@ namespace ImageSlider
             dd_Folder.ValueMember = "Value";
 
             LoadStartup(); // Call the new method
+            //txtInputURL.TextChanged += UpdateURLBox; // This is the event subscription
         }
 
         private void LoadStartup()
@@ -1660,5 +1661,23 @@ namespace ImageSlider
             int imageid = await da.InsertIMGURL(userid, useralias, imgmod);
         }
 
+        private void UpdateURLBox(object? sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Measure the text to determine the required width
+                Size textSize = TextRenderer.MeasureText(textBox.Text, textBox.Font);
+
+                // Add some padding for better appearance
+                int newWidth = textSize.Width + 20;
+
+                // Define min/max widths to keep the control reasonably sized
+                int minWidth = 200;
+                int maxWidth = this.ClientSize.Width - textBox.Left - 20; // Respect form boundaries
+
+                // Apply the new width, constrained by min and max values
+                textBox.Width = Math.Max(minWidth, Math.Min(newWidth, maxWidth));
+            }
+        }
     }
 }
