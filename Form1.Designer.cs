@@ -57,6 +57,8 @@
             txtUserAlias = new TextBox();
             txt_ICategory = new TextBox();
             txt_IAlbum = new TextBox();
+            txt_IComment = new TextBox();
+            txt_IDescription = new TextBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -141,9 +143,9 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(460, 12);
+            pictureBox1.Location = new Point(639, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(666, 426);
+            pictureBox1.Size = new Size(621, 600);
             pictureBox1.TabIndex = 10;
             pictureBox1.TabStop = false;
             // 
@@ -256,16 +258,16 @@
             // 
             // txtInputURL
             // 
-            txtInputURL.Location = new Point(12, 415);
+            txtInputURL.Location = new Point(11, 592);
             txtInputURL.Name = "txtInputURL";
-            txtInputURL.Size = new Size(568, 23);
+            txtInputURL.Size = new Size(1249, 23);
             txtInputURL.TabIndex = 23;
             // 
             // btnInsertURL
             // 
             btnInsertURL.BackColor = SystemColors.ActiveBorder;
             btnInsertURL.ForeColor = SystemColors.ActiveCaptionText;
-            btnInsertURL.Location = new Point(12, 317);
+            btnInsertURL.Location = new Point(10, 478);
             btnInsertURL.Name = "btnInsertURL";
             btnInsertURL.Size = new Size(97, 23);
             btnInsertURL.TabIndex = 24;
@@ -289,24 +291,46 @@
             // 
             // txt_ICategory
             // 
-            txt_ICategory.Location = new Point(12, 386);
+            txt_ICategory.Location = new Point(10, 507);
             txt_ICategory.Name = "txt_ICategory";
             txt_ICategory.Size = new Size(131, 23);
             txt_ICategory.TabIndex = 27;
+            txt_ICategory.Text = "Category";
             // 
             // txt_IAlbum
             // 
-            txt_IAlbum.Location = new Point(149, 386);
+            txt_IAlbum.Location = new Point(147, 507);
             txt_IAlbum.Name = "txt_IAlbum";
             txt_IAlbum.Size = new Size(131, 23);
             txt_IAlbum.TabIndex = 28;
+            txt_IAlbum.Text = "Album";
+            // 
+            // txt_IComment
+            // 
+            txt_IComment.Location = new Point(11, 536);
+            txt_IComment.Name = "txt_IComment";
+            txt_IComment.Size = new Size(268, 23);
+            txt_IComment.TabIndex = 29;
+            txt_IComment.Text = "Comment";
+            // 
+            // txt_IDescription
+            // 
+            txt_IDescription.Location = new Point(12, 565);
+            txt_IDescription.Name = "txt_IDescription";
+            txt_IDescription.Size = new Size(268, 23);
+            txt_IDescription.TabIndex = 30;
+            txt_IDescription.Text = "Description";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(1149, 450);
+            ClientSize = new Size(1272, 624);
+            Controls.Add(txt_IDescription);
+            Controls.Add(txt_IComment);
+            Controls.Add(txt_Folder);
+            Controls.Add(txt_FileName);
             Controls.Add(txt_IAlbum);
             Controls.Add(txt_ICategory);
             Controls.Add(txtUserAlias);
@@ -325,17 +349,15 @@
             Controls.Add(dd_Folder);
             Controls.Add(txt_Type);
             Controls.Add(txt_Timer);
-            Controls.Add(pictureBox1);
             Controls.Add(txt_Width);
-            Controls.Add(txt_Folder);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(txt_Height);
-            Controls.Add(txt_FileName);
             Controls.Add(txt_Counter);
             Controls.Add(txt_Count);
             Controls.Add(btn_Stop);
             Controls.Add(btn_Start);
+            Controls.Add(pictureBox1);
             Name = "Form1";
             Text = "VeeBro ImageSlider V 260000 .Net8";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -375,5 +397,7 @@
         private TextBox txtUserAlias;
         private TextBox txt_ICategory;
         private TextBox txt_IAlbum;
+        private TextBox txt_IComment;
+        private TextBox txt_IDescription;
     }
 }

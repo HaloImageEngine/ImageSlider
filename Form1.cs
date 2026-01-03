@@ -21,6 +21,24 @@ namespace ImageSlider
         {
             InitializeComponent();
 
+
+            ToolTip tip = new ToolTip();
+            tip.SetToolTip(txtUserID, "Enter your UserID");
+
+            ToolTip tip1 = new ToolTip();
+            tip1.SetToolTip(txt_ICategory, "Category");
+
+            ToolTip tip2 = new ToolTip();
+            tip2.SetToolTip(txt_ICategory, "Album");
+
+
+            ToolTip tip3 = new ToolTip();
+            tip3.SetToolTip(txt_IComment, "Description");
+
+            ToolTip tip4 = new ToolTip();
+            tip4.SetToolTip(txt_IDescription, "Description");
+
+
             // Read from App.config instead of hardcoding
             txt_Count.Text = ConfigurationManager.AppSettings["DefaultImageCount"] ?? "250";
             txt_Timer.Text = ConfigurationManager.AppSettings["DefaultTimerInterval"] ?? "3500";
@@ -1594,8 +1612,8 @@ namespace ImageSlider
 
                 // Test Data for other fields
                 Image_Location_Small = "pic01_sm.jpg",
-                Image_Comment = "Test Comment",
-                Image_Description = "Test Description from URL",
+                Image_Comment = txt_IComment.Text,
+                Image_Description = txt_IDescription.Text,
                 Image_Date = DateTime.Now,
                 Image_Rotation = rotation,
                 Image_Category_ID = 1,
